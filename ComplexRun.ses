@@ -1,0 +1,132 @@
+{load_file("nrngui.hoc")}
+objectvar save_window_, rvp_
+objectvar scene_vector_[5]
+objectvar ocbox_, ocbox_list_, scene_, scene_list_
+{ocbox_list_ = new List()  scene_list_ = new List()}
+{pwman_place(0,0,0)}
+{
+xpanel("RunControl", 0)
+v_init = -79
+xvalue("Init","v_init", 1,"stdinit()", 1, 1 )
+xbutton("Init & Run","run()")
+xbutton("Stop","stoprun=1")
+runStopAt = 5
+xvalue("Continue til","runStopAt", 1,"{continuerun(runStopAt) stoprun=1}", 1, 1 )
+runStopIn = 1
+xvalue("Continue for","runStopIn", 1,"{continuerun(t + runStopIn) stoprun=1}", 1, 1 )
+xbutton("Single Step","steprun()")
+t = 150
+xvalue("t","t", 2 )
+tstop = 150
+xvalue("Tstop","tstop", 1,"tstop_changed()", 0, 1 )
+dt = 0.025
+xvalue("dt","dt", 1,"setdt()", 0, 1 )
+steps_per_ms = 40
+xvalue("Points plotted/ms","steps_per_ms", 1,"setdt()", 0, 1 )
+screen_update_invl = 0.05
+xvalue("Scrn update invl","screen_update_invl", 1,"", 0, 1 )
+realtime = 0.14
+xvalue("Real Time","realtime", 0,"", 0, 1 )
+xpanel(-1,110)
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(0,150,-80,40)
+scene_vector_[2] = save_window_
+{save_window_.view(0, -80, 150, 120, 1224, 0, 300.6, 200.8)}
+graphList[0].append(save_window_)
+save_window_.save_name("graphList[0].")
+save_window_.addexpr("v(.5)", 1, 1, 0.8, 0.9, 2)
+}
+{
+xpanel("IClamp[0] at str_soma(0.5)", 0)
+xlabel("IClamp[0] at str_soma(0.5)")
+stim1.del = 20
+xvalue("del","stim1.del", 1,"", 0, 1 )
+stim1.dur = 80
+xvalue("dur","stim1.dur", 1,"", 0, 1 )
+stim1.amp = 0
+xvalue("amp","stim1.amp", 1,"", 0, 1 )
+stim1.i = 0
+xvalue("i","stim1.i", 0,"", 0, 1 )
+xpanel(-4,556)
+}
+{
+xpanel("AMPAk[0] at str_soma(0.5)", 0)
+xlabel("AMPAk[0] at str_soma(0.5)")
+strAMPAk.Erev = 0
+xvalue("Erev","strAMPAk.Erev", 1,"", 0, 1 )
+strAMPAk.gAmax = 30
+xvalue("gAmax","strAMPAk.gAmax", 1,"", 0, 1 )
+strAMPAk.tauon = 1.1
+xvalue("tauon","strAMPAk.tauon", 1,"", 0, 1 )
+strAMPAk.tauoff = 5.75
+xvalue("tauoff","strAMPAk.tauoff", 1,"", 0, 1 )
+strAMPAk.i = -7.99266e-05
+xvalue("i","strAMPAk.i", 0,"", 0, 1 )
+strAMPAk.gA = 1.07781e-06
+xvalue("gA","strAMPAk.gA", 0,"", 0, 1 )
+strAMPAk.m = 3.96127e-08
+xvalue("m","strAMPAk.m", 0,"", 0, 1 )
+strAMPAk.h = 0.0357711
+xvalue("h","strAMPAk.h", 0,"", 0, 1 )
+xpanel(516,408)
+}
+{
+xpanel("NMDAk[0] at str_soma(0.5)", 0)
+xlabel("NMDAk[0] at str_soma(0.5)")
+strNMDAk.Erev = 0
+xvalue("Erev","strNMDAk.Erev", 1,"", 0, 1 )
+strNMDAk.gNmax = 60
+xvalue("gNmax","strNMDAk.gNmax", 1,"", 0, 1 )
+strNMDAk.tauon = 2.23
+xvalue("tauon","strNMDAk.tauon", 1,"", 0, 1 )
+strNMDAk.tauoff = 75.68
+xvalue("tauoff","strNMDAk.tauoff", 1,"", 0, 1 )
+strNMDAk.mg = 1.2
+xvalue("mg","strNMDAk.mg", 1,"", 0, 1 )
+strNMDAk.i = -0.000386719
+xvalue("i","strNMDAk.i", 0,"", 0, 1 )
+strNMDAk.gN = 0.00017912
+xvalue("gN","strNMDAk.gN", 0,"", 0, 1 )
+strNMDAk.m = 0.00013376
+xvalue("m","strNMDAk.m", 0,"", 0, 1 )
+strNMDAk.h = 2.98448
+xvalue("h","strNMDAk.h", 0,"", 0, 1 )
+strNMDAk.B = 0.0291141
+xvalue("B","strNMDAk.B", 0,"", 0, 1 )
+xpanel(516,0)
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(-10,150,-0.006,0.015)
+scene_vector_[3] = save_window_
+{save_window_.view(-10, -0.006, 160, 0.021, 780, 0, 300.6, 200.8)}
+graphList[1].append(save_window_)
+save_window_.save_name("graphList[1].")
+save_window_.addexpr("strNMDAk.i", 1, 1, 0.8, 0.9, 2)
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(-10,150,-0.0082,0.0006)
+scene_vector_[4] = save_window_
+{save_window_.view(-10, -0.0082, 160, 0.0088, 780, 348, 300.6, 200.8)}
+graphList[1].append(save_window_)
+save_window_.save_name("graphList[1].")
+save_window_.addvar("strAMPAk.i", 1, 1, 0.8, 0.9, 2)
+}
+{
+xpanel("KBNetStim[0] at str_soma(0.5)", 0)
+xlabel("KBNetStim[0] at str_soma(0.5)")
+stim2.interval = 2
+xvalue("interval","stim2.interval", 1,"", 0, 1 )
+stim2.number = 50
+xvalue("number","stim2.number", 1,"", 0, 1 )
+stim2.start = 1
+xvalue("start","stim2.start", 1,"", 0, 1 )
+stim2.noise = 0
+xvalue("noise","stim2.noise", 1,"", 0, 1 )
+xpanel(256,615)
+}
+objectvar scene_vector_[1]
+{doNotify()}

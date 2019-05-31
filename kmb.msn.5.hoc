@@ -1,0 +1,66 @@
+//This is a MSN model as implemented by Kevin Biddell
+// all questions should be directed to Kevin at kevin.biddell@gmail.com
+
+//Created by Kevin Biddell
+//4/18/07
+load_file("nrngui.hoc")
+
+celsius =37 //Wickens and Wilson 1998 OK
+tstop = 150
+	
+create str_soma 
+access str_soma
+load_file("cortical_stimulation.hoc") 
+load_file("injection_stimulation.hoc")
+//load_file("ComplexRun.ses")	//Added KMB 3/28/2012
+str_soma{
+
+      nseg = 3
+	diam= 18	
+      	L = 11	// KMB approximation of size of real striatal neuron of wickens and Wilson 1998 
+	insert Nam
+	insert Km
+	insert Leakm
+	insert Kirm
+	insert KAfm
+	insert KAsm
+	insert Krpm
+	insert NaPm
+	insert NaSm
+	
+	I_stim() // ran to excite/stimulate the cell by way of current injection
+	cor_stim() // ran to excite/stimulate the cell by way of cortex
+	
+}
+
+//----------------------------------------------------------------------------
+//  insert postsynaptic mechansisms ie NMDA and AMPA channels developed from Wolf et al
+//----------------------------------------------------------------------------
+
+//_______NMDAw______________________________________________
+
+objectvar strNMDAk
+strNMDAk = new NMDAk()          // create synapse
+str_soma strNMDAk.loc(0.4)         // assign postsynaptic compartment
+
+
+//_________AMPAw_________________________________________
+
+objectvar strAMPAk
+strAMPAk = new AMPAk()          // create post synapse
+str_soma strAMPAk.loc(0.5)         // assign postsynaptic compartment
+
+objref NMDAcon, AMPAcon, GluCon1,GluCon2,GluCon3,GluCon4
+//direct inputs theoretically should be the same synaptic strength, frequency of input is the cause of depolarization
+NMDAcon = new NetCon(stim2,strNMDAk,0.1,1,1) //connection between artificial cells & channels
+AMPAcon = new NetCon(stim2,strAMPAk,0.1,1,1) //connection between artificial cells & channels
+//4.14.13 KMB changed the weights of the background stimulation to 0.8 from 1
+GluCon1 = new NetCon(dwnbkgrnd,strNMDAk,0.1,1,0.8)
+GluCon2 = new NetCon(dwnbkgrnd,strAMPAk,0.1,1,0.8)
+GluCon3 = new NetCon(upbkgrnd,strNMDAk,0.1,1,0.8)
+GluCon4 = new NetCon(upbkgrnd,strAMPAk,0.1,1,0.8)
+//netcon = new NetCon(source, target, threshold, delay, weight)
+
+v_init = -79			// from Wickens and Wilson 1998
+
+

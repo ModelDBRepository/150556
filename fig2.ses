@@ -1,0 +1,174 @@
+{load_file("nrngui.hoc")}
+objectvar save_window_, rvp_
+objectvar scene_vector_[3]
+objectvar ocbox_, ocbox_list_, scene_, scene_list_
+{ocbox_list_ = new List()  scene_list_ = new List()}
+{pwman_place(0,0,0)}
+{
+xpanel("RunControl", 0)
+v_init = -79
+xvalue("Init","v_init", 1,"stdinit()", 1, 1 )
+xbutton("Init & Run","run()")
+xbutton("Stop","stoprun=1")
+runStopAt = 5
+xvalue("Continue til","runStopAt", 1,"{continuerun(runStopAt) stoprun=1}", 1, 1 )
+runStopIn = 1
+xvalue("Continue for","runStopIn", 1,"{continuerun(t + runStopIn) stoprun=1}", 1, 1 )
+xbutton("Single Step","steprun()")
+t = 150
+xvalue("t","t", 2 )
+tstop = 150
+xvalue("Tstop","tstop", 1,"tstop_changed()", 0, 1 )
+dt = 0.025
+xvalue("dt","dt", 1,"setdt()", 0, 1 )
+steps_per_ms = 40
+xvalue("Points plotted/ms","steps_per_ms", 1,"setdt()", 0, 1 )
+screen_update_invl = 0.05
+xvalue("Scrn update invl","screen_update_invl", 1,"", 0, 1 )
+realtime = 0.17
+xvalue("Real Time","realtime", 0,"", 0, 1 )
+xpanel(0,144)
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(0,150,-80,40)
+scene_vector_[2] = save_window_
+{save_window_.view(0, -80, 150, 120, 1176, 0, 329.4, 229.6)}
+graphList[0].append(save_window_)
+save_window_.save_name("graphList[0].")
+save_window_.addexpr("v(.5)", 1, 1, 0.8, 0.9, 2)
+}
+{
+xpanel("IClamp[0] at str_soma(0.5)", 0)
+xlabel("IClamp[0] at str_soma(0.5)")
+stim1.del = 20
+xvalue("del","stim1.del", 1,"", 0, 1 )
+stim1.dur = 80
+xvalue("dur","stim1.dur", 1,"", 0, 1 )
+stim1.amp = 0.005
+xvalue("amp","stim1.amp", 1,"", 0, 1 )
+stim1.i = 0
+xvalue("i","stim1.i", 0,"", 0, 1 )
+xpanel(6,606)
+}
+{
+xpanel("AMPAk[0] at str_soma(0.5)", 0)
+xlabel("AMPAk[0] at str_soma(0.5)")
+strAMPAk.Erev = 0
+xvalue("Erev","strAMPAk.Erev", 1,"", 0, 1 )
+strAMPAk.gAmax = 30
+xvalue("gAmax","strAMPAk.gAmax", 1,"", 0, 1 )
+strAMPAk.tauon = 1.1
+xvalue("tauon","strAMPAk.tauon", 1,"", 0, 1 )
+strAMPAk.tauoff = 5.75
+xvalue("tauoff","strAMPAk.tauoff", 1,"", 0, 1 )
+strAMPAk.i = -1.49509e-05
+xvalue("i","strAMPAk.i", 0,"", 0, 1 )
+strAMPAk.gA = 2.18862e-07
+xvalue("gA","strAMPAk.gA", 0,"", 0, 1 )
+strAMPAk.m = 1.1593e-12
+xvalue("m","strAMPAk.m", 0,"", 0, 1 )
+strAMPAk.h = 0.00726375
+xvalue("h","strAMPAk.h", 0,"", 0, 1 )
+xpanel(954,528)
+}
+{
+xpanel("NMDAk[0] at str_soma(0.5)", 0)
+xlabel("NMDAk[0] at str_soma(0.5)")
+strNMDAk.Erev = 0
+xvalue("Erev","strNMDAk.Erev", 1,"", 0, 1 )
+strNMDAk.gNmax = 60
+xvalue("gNmax","strNMDAk.gNmax", 1,"", 0, 1 )
+strNMDAk.tauon = 2.23
+xvalue("tauon","strNMDAk.tauon", 1,"", 0, 1 )
+strNMDAk.tauoff = 75.68
+xvalue("tauoff","strNMDAk.tauoff", 1,"", 0, 1 )
+strNMDAk.mg = 1.2
+xvalue("mg","strNMDAk.mg", 1,"", 0, 1 )
+strNMDAk.i = -0.000389497
+xvalue("i","strNMDAk.i", 0,"", 0, 1 )
+strNMDAk.gN = 0.000138106
+xvalue("gN","strNMDAk.gN", 0,"", 0, 1 )
+strNMDAk.m = 9.85063e-07
+xvalue("m","strNMDAk.m", 0,"", 0, 1 )
+strNMDAk.h = 2.301
+xvalue("h","strNMDAk.h", 0,"", 0, 1 )
+strNMDAk.B = 0.0412852
+xvalue("B","strNMDAk.B", 0,"", 0, 1 )
+xpanel(948,120)
+}
+{
+xpanel("KBNetStim[0] at str_soma(0.5)", 0)
+xlabel("KBNetStim[0] at str_soma(0.5)")
+stim2.interval = 1
+xvalue("interval","stim2.interval", 1,"", 0, 1 )
+stim2.number = 0
+xvalue("number","stim2.number", 1,"", 0, 1 )
+stim2.start = 10
+xvalue("start","stim2.start", 1,"", 0, 1 )
+stim2.noise = 0.5
+xvalue("noise","stim2.noise", 1,"", 0, 1 )
+xpanel(306,108)
+}
+{
+xpanel("KBNetStim[1] at str_soma(0.5)", 0)
+xlabel("KBNetStim[1] at str_soma(0.5)")
+upbkgrnd.interval = 3.33
+xvalue("interval","upbkgrnd.interval", 1,"", 0, 1 )
+upbkgrnd.number = 0
+xvalue("number","upbkgrnd.number", 1,"", 0, 1 )
+upbkgrnd.start = 25
+xvalue("start","upbkgrnd.start", 1,"", 0, 1 )
+upbkgrnd.noise = 0.5
+xvalue("noise","upbkgrnd.noise", 1,"", 0, 1 )
+xpanel(306,360)
+}
+{
+xpanel("KBNetStim[2] at str_soma(0.5)", 0)
+xlabel("KBNetStim[2] at str_soma(0.5)")
+dwnbkgrnd.interval = 25
+xvalue("interval","dwnbkgrnd.interval", 1,"", 0, 1 )
+dwnbkgrnd.number = 40
+xvalue("number","dwnbkgrnd.number", 1,"", 0, 1 )
+dwnbkgrnd.start = 1
+xvalue("start","dwnbkgrnd.start", 1,"", 0, 1 )
+dwnbkgrnd.noise = 0.5
+xvalue("noise","dwnbkgrnd.noise", 1,"", 0, 1 )
+xpanel(306,618)
+}
+{
+xpanel("str_soma(0 - 1) (Parameters)", 0)
+xlabel("str_soma(0 - 1) (Parameters)")
+xlabel("nseg = 3")
+str_soma.L = 11
+xvalue("L","str_soma.L", 1,"", 0, 0 )
+str_soma.Ra = 35.4
+xvalue("Ra","str_soma.Ra", 1,"str_soma.Ra += 0", 0, 1 )
+str_soma.cm = 1
+xvalue("cm","str_soma.cm", 1,"", 0, 0 )
+str_soma.diam = 18
+xvalue("diam","str_soma.diam", 1,"", 0, 0 )
+str_soma.gnabar_Nam = 0.035
+xvalue("gnabar_Nam","str_soma.gnabar_Nam", 1,"", 0, 0 )
+str_soma.gkmbar_Km = 0.006
+xvalue("gkmbar_Km","str_soma.gkmbar_Km", 1,"", 0, 0 )
+str_soma.gl_Leakm = 1e-05
+xvalue("gl_Leakm","str_soma.gl_Leakm", 1,"", 0, 0 )
+str_soma.el_Leakm = -75
+xvalue("el_Leakm","str_soma.el_Leakm", 1,"", 0, 0 )
+str_soma.gkirmbar_Kirm = 0.0002
+xvalue("gkirmbar_Kirm","str_soma.gkirmbar_Kirm", 1,"", 0, 0 )
+str_soma.gkafmbar_KAfm = 9e-05
+xvalue("gkafmbar_KAfm","str_soma.gkafmbar_KAfm", 1,"", 0, 0 )
+str_soma.gkasmbar_KAsm = 0.00032
+xvalue("gkasmbar_KAsm","str_soma.gkasmbar_KAsm", 1,"", 0, 0 )
+str_soma.gkrpmbar_Krpm = 0.00042
+xvalue("gkrpmbar_Krpm","str_soma.gkrpmbar_Krpm", 1,"", 0, 0 )
+str_soma.gnapmbar_NaPm = 2e-05
+xvalue("gnapmbar_NaPm","str_soma.gnapmbar_NaPm", 1,"", 0, 0 )
+str_soma.gnasmbar_NaSm = 0.00011
+xvalue("gnasmbar_NaSm","str_soma.gnasmbar_NaSm", 1,"", 0, 0 )
+xpanel(570,324)
+}
+objectvar scene_vector_[1]
+{doNotify()}

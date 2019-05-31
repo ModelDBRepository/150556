@@ -1,0 +1,20 @@
+//----------------------------------------------------------------------------
+
+//***********************************************************************************
+access str_soma
+objectvar stim1 // insert current injection in MSN neuron
+ 
+
+//create "artificial cell" stimulation
+
+objref stim1    //Changed 3/28/2012 KMB Stim1 was Stim2
+proc I_stim() {
+		//Trying to replicate fig3C
+		stim1 = new IClamp(0.5)
+		stim1.del = 20
+		stim1.dur = 0
+		stim1.amp = 0 // 0.005 is nice	//0 is off	
+
+		
+		
+}
