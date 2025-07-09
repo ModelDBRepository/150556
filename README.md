@@ -35,7 +35,5 @@ modiffied NETSTIM that does not allow that. Please use ComplexRun.ses.
 
 2022-05: Updated MOD files to contain valid C++ and be compatible with  
          the upcoming versions 8.2 and 9.0 of NEURON.
-
----
-
+         
 2025-07-09: Converted README to Markdown.
